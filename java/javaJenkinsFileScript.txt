@@ -1,0 +1,42 @@
+properties = null  
+
+def loadProperties() {
+    node {
+        
+        properties = new Properties()
+		git credentialsId: 'ec178a16-6695-42b1-a7a4-e02d67886fd0', url: 'https://github.com/bhanuprakashbg/ConfigRepo.git'		
+        File propertiesFile = new File("devops.properties")
+        properties.load(propertiesFile.newDataInputStream())
+        echo "Immediate one ${properties.projectPath}"
+		echo "Immediate one ${properties.maven}"
+		echo "Immediate one ${properties.java}"
+    }
+}
+
+node('master'){
+
+stage ('properties') {
+			steps {
+                script {
+                    loadProperties()
+                    echo "Later one ${properties.projectPath}"
+					echo "Immediate 2 ${properties.maven}"
+					echo "Immediate 3 ${properties.java}"
+                }
+            }
+}
+
+
+stage('git checkout') {
+ git 'https://github.com/bhanuprakashbg/BankWebApp'
+}
+
+stage('Build & Compile') {    
+sh 'mvn clean install sonar:sonar'
+}
+
+
+
+}
+
+

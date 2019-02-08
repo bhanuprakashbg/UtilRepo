@@ -1,0 +1,15 @@
+pipeline {
+         agent any
+         stages {
+                 stage('GitCheckout') {
+                 steps {
+                     git 'https://github.com/bhanuprakashbg/BankWebApp'
+                 }
+                 }
+                 stage('Build') {
+                 steps {
+                    mvn clean install sonar:sonar
+                 }
+                 }                 
+              }
+}

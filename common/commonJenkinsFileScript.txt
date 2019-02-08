@@ -4,7 +4,7 @@ def loadProperties() {
     node {
         
         properties = new Properties()
-		git credentialsId: 'ec178a16-6695-42b1-a7a4-e02d67886fd0', url: 'https://github.com/bhanuprakashbg/ConfigRepo.git'
+		git credentialsId: 'ec178a16-6695-42b1-a7a4-e02d67886fd0', url: 'https://github.com/bhanuprakashbg/ConfigRepo.git'		
         File propertiesFile = new File("devops.properties")
         properties.load(propertiesFile.newDataInputStream())
         echo "Immediate one ${properties.projectPath}"
@@ -14,7 +14,7 @@ def loadProperties() {
 }
 
 node('master'){
-stages{
+
 stage ('properties') {
 			steps {
                 script {
@@ -35,7 +35,7 @@ stage('Build & Compile') {
 sh 'mvn clean install sonar:sonar'
 }
 
-}
+
 
 }
 
