@@ -15,17 +15,10 @@ def loadProperties() {
 
 node('master'){
 
-   
+echo "Immediate one ${properties.projectPath}"
+echo "Immediate 2 ${properties.maven}"
+echo "Immediate 3 ${properties.java}"
 
-
-def props = readProperties  file: 'https://github.com/bhanuprakashbg/ConfigRepo.git/devops.properties'
-def projectPath = props['project'];
-def java = props['java'];
-def maven = props['maven'];
-
-echo "projectPath=${projectPath}"
-echo "java=${java}"
-echo "maven=${maven}"
 
 stage('git checkout') {
  git 'https://github.com/bhanuprakashbg/BankWebApp'
