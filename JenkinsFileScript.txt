@@ -1,5 +1,18 @@
 node('master'){
 
+properties = null     
+
+def loadProperties() {
+    node {
+        checkout scm
+        properties = new Properties()
+		git credentialsId: 'ec178a16-6695-42b1-a7a4-e02d67886fd0', url: 'https://github.com/bhanuprakashbg/ConfigRepo.git'
+        File propertiesFile = new File("devops.properties")
+        properties.load(propertiesFile.newDataInputStream())
+        echo "Immediate one ${properties.repo}"
+    }
+}
+
 
 def props = readProperties  file: 'https://github.com/bhanuprakashbg/ConfigRepo.git/devops.properties'
 def projectPath = props['project'];
