@@ -2,6 +2,7 @@ node('master'){
 
 properties = null     
 
+stage('load properties') {
 def loadProperties() {
     node {
         checkout scm
@@ -12,7 +13,7 @@ def loadProperties() {
         echo "Immediate one ${properties.repo}"
     }
 }
-
+}
 
 def props = readProperties  file: 'https://github.com/bhanuprakashbg/ConfigRepo.git/devops.properties'
 def projectPath = props['project'];
