@@ -32,7 +32,8 @@ def javastage() {
 			git "${properties.JenkinsFile}"			
 			sh 'pwd'
 			sh 'ls -ltr'
-			sh "sudo docker build -t mytomcat:latest java"			
+			sh "sudo docker build -t mytomcat:latest java"	
+			docker stop mycontainer || true && docker rm mycontainer || true
 			sh "sudo docker run -d -p 8091:8080 --name mycontainer mytomcat"
 			sh "sudo docker cp /home/devopsuser6/.jenkins/workspace/Devopspipeline/target/BankWebApp.war mycontainer:/usr/local/tomcat/webapps/"			
 			}
