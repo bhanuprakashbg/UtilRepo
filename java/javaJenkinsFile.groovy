@@ -1,12 +1,7 @@
 def javastage() {
   	 
-		stage('Checkout') {
-			//dir('app') {
-				git "${properties.appPath}"						
-			//}
-			sh 'pwd'
-			//sh '. app/'
-			//sh 'pwd'
+		stage('Checkout') {			
+			git "${properties.appPath}"									
 		}	
 
 		stage('Code Analysis') {
@@ -22,12 +17,25 @@ def javastage() {
 		}
 
 		stage('Build') {    
-			sh 'mvn clean install '
+			sh 'mvn clean install'
 		}
-	
-		stage('Deploy') {    
-			//sh 'ls -ltr target/*.war'
-			//sh 'sudo cp target/*.war /home/devopsuser6/apache-tomcat-8.5.37/webapps'
+		
+		stage ('Artifactory') {
+			def server = Artifactory.newServer url:"${properties.artifactoryURL}", username: "${properties.artifactoryUsername}", password: "${properties.artifactoryPassword}"
+			def uploadSpec = """{
+			"files": [
+			{
+			"pattern": "*.war",
+			"target": "lib-release"
+			}
+			]
+			}""" 
+			def buildInfo = Artifactory.newBuildInfo()
+			server.upload spec: uploadSpec, buildInfo: buildInfo
+			server.publishBuildInfo buildInfo
+		}
+
+		stage('Deploy') {    			
 			dir ('utilities') {
 			git "${properties.JenkinsFile}"			
 			sh 'pwd'
@@ -39,6 +47,10 @@ def javastage() {
 			}
 		}
 	
+		stage('Clean Workspace') {    
+			sh 'pwd'
+			deleteDir()
+		}
 
 }
 
