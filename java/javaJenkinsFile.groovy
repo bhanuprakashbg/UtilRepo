@@ -4,6 +4,9 @@ def javastage() {
 			dir('app') {
 				git "${properties.appPath}"						
 			}
+			sh 'pwd'
+			sh '. app/'
+			sh 'pwd'
 		}	
 
 		stage('Code Analysis') {
