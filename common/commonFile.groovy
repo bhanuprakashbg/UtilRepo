@@ -1,4 +1,4 @@
-def javastage() {
+def commonstage() {
 
   stage ('Artifactory') {
         def server = Artifactory.newServer url:"${properties.artifactoryURL}", username: "${properties.artifactoryUsername}", password: "${properties.artifactoryPassword}"
@@ -16,9 +16,9 @@ def javastage() {
       }
       
   stage('Clean Workspace') {    
-			sh 'pwd'
-			//deleteDir()
-		}
+	sh 'pwd'
+	//deleteDir()
+	}
     
 }
 
