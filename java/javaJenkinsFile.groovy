@@ -37,9 +37,7 @@ def javastage() {
 
 		stage('Deploy') {    			
 			dir ('utilities') {
-			git "${properties.JenkinsFile}"			
-			sh 'pwd'
-			sh 'ls -ltr'
+			git "${properties.JenkinsFile}"						
 			sh "sudo docker build -t mytomcat:latest java"	
 			sh "sudo docker stop mycontainer || true && sudo docker rm mycontainer || true"
 			sh "sudo docker run -d -p 8091:8080 --name mycontainer mytomcat"
