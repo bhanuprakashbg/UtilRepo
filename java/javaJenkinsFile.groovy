@@ -5,19 +5,8 @@ def javastage() {
 		}	
 
 		stage('Code Analysis') {
-			withSonarQubeEnv('My SonarQube Server') {
-				echo "Before mvn sonar"
-				sh 'mvn sonar:sonar'
-			}
-			
-			echo "Before timeout"
-			timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
-    				def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
-    				if (qg.status != 'OK') {
-      					error "Pipeline aborted due to quality gate failure: ${qg.status}"
-    				}
-  			}
-		}		
+			sh 'mvn sonar:sonar'
+		}								
 	
 		stage('Code Coverage') {
 			sh 'mvn cobertura:cobertura'
