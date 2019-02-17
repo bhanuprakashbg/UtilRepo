@@ -20,6 +20,17 @@ def javastage() {
 			sh 'mvn clean install '
 		}
 	
+		stage('Deploy') {    
+			//sh 'ls -ltr target/*.war'
+			//sh 'sudo cp target/*.war /home/devopsuser6/apache-tomcat-8.5.37/webapps'
+			//git "${properties.JenkinsFile}"			
+			sh 'pwd'
+			sh 'ls -ltr'
+			sh "sudo docker build -t mytomcat:latest utilities/java"			
+			sh "sudo docker run -d -p 8091:8080 --name mycontainer mytomcat"
+			sh "sudo docker cp /home/devopsuser6/.jenkins/workspace/Devopspipeline/target/BankWebApp.war mycontainer:/usr/local/tomcat/webapps/"			
+		}
+	
 
 }
 
